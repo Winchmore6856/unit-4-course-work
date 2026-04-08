@@ -41,4 +41,45 @@ def binary_search(items, target):
     passes = 0
 
     while first <= last:
-        midpoint 
+        midpoint = (first + last) // 2 
+
+if items[midpoint][0] == target:
+    print(f"Found {target} after {passes} passes")
+    return True 
+
+elif items[midpoint][0] < target:
+    first = midpoint + 1 
+else:
+    last = midpoint - 1
+
+passes += 1 
+
+print(f"{target} not found")
+return false 
+
+
+#bubble sort 
+def bubble_sort(data):
+    n = len(data)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if data[j][0] > data[j + 1][0]:
+                data[j], data[j+1] = data[j+1], data[j]
+    return data 
+
+#quick sort
+def quick_sort(data):
+    if len(data) <=1:
+        return data
+
+pivot = data[0]
+left = []
+right = []
+
+for item in data[1:]:
+    if item[0] <= pivot[0]:
+        left.append(item)
+    else:
+        right.append(item)
+
+return quick_sort(left) + [pivot] + quick_sort(right)
