@@ -34,28 +34,42 @@ def linear_search(items, target):
             return
         print(f"{target} not found")
 
-#binary search(fixed)
+#linear search UNSORTED 
+def linear_search_unsorted(data, target):
+    for item in data:
+        if item[0] == target:
+            return True
+    return False 
+
+#linear search SORTED 
+def linear_search_sorted(data, target):
+    for item in data:
+        if item[0] == target:
+            return True
+    return False 
+
+#binary search
 def binary_search(items, target):
     first = 0
     last = len(items) - 1
     passes = 0
 
     while first <= last:
+        passes += 1  # Added to track search attempts
         midpoint = (first + last) // 2 
 
-if items[midpoint][0] == target:
-    print(f"Found {target} after {passes} passes")
-    return True 
-
-elif items[midpoint][0] < target:
-    first = midpoint + 1 
-else:
-    last = midpoint - 1
-
-passes += 1 
-
-print(f"{target} not found")
-return false 
+        # Indent the if block to be inside the while loop
+        if items[midpoint][0] == target:
+            print(f"Found {target} after {passes} passes")
+            return True
+        
+        # Standard binary search logic to update range
+        if items[midpoint][0] < target:
+            first = midpoint + 1
+        else:
+            last = midpoint - 1
+            
+    return False # Return False if the loop ends and target isn't found
 
 
 #bubble sort 
@@ -72,14 +86,39 @@ def quick_sort(data):
     if len(data) <=1:
         return data
 
-pivot = data[0]
-left = []
-right = []
+    pivot = data[0]
+    left = []
+    right = []
 
-for item in data[1:]:
-    if item[0] <= pivot[0]:
-        left.append(item)
-    else:
-        right.append(item)
+    for item in data[1:]:
+        if item[0] <= pivot[0]:
+            left.append(item)
+        else:
+            right.append(item)
+    return quick_sort(left) + [pivot] + quick_sort(right)
 
-return quick_sort(left) + [pivot] + quick_sort(right)
+#TIMING SEARCHES 
+import time
+
+#linear unsorted 
+start = time.time()
+linear_search_unsorted(Hotdog_data, search_querry)
+unsorted_time = time.time() - start 
+
+#sort first
+sorted_data =  bubble_sort(Hotdog_data.copy())
+
+#linear sorted 
+start = time.time()
+linear_search_sorted(Hotdog_data, search_querry)
+sorted_time = time.time() - start 
+
+#binary 
+start = time.time()
+binary_search(Hotdog_data, search_querry)
+binary_time = time.time() - start
+
+#TIMING SORTS 
+start = time.time()
+bubble(Hotdog_data.copy())
+bubble_time = time.time() - start 
