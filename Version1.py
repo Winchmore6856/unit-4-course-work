@@ -25,7 +25,8 @@ with open('HotDogs.txt', "r") as file:
         if search_query in line:
             parts = line.strip().split(",")
             Hotdog_data.append(parts)
-
+for i in Hotdog_data:
+    print(i)
 #linear searches
 def linear_search(items, target):
     for i in range(len(items)):
@@ -102,7 +103,7 @@ import time
 
 #linear unsorted 
 start = time.time()
-linear_search_unsorted(Hotdog_data, search_querry)
+linear_search_unsorted(Hotdog_data, search_query)
 unsorted_time = time.time() - start 
 
 #sort first
@@ -110,15 +111,38 @@ sorted_data =  bubble_sort(Hotdog_data.copy())
 
 #linear sorted 
 start = time.time()
-linear_search_sorted(Hotdog_data, search_querry)
+linear_search_sorted(Hotdog_data, search_query)
 sorted_time = time.time() - start 
 
 #binary 
 start = time.time()
-binary_search(Hotdog_data, search_querry)
+binary_search(Hotdog_data, search_query)
 binary_time = time.time() - start
 
 #TIMING SORTS 
+
+#bubble sort
 start = time.time()
-bubble(Hotdog_data.copy())
+bubble_sort(Hotdog_data.copy())
 bubble_time = time.time() - start 
+
+#quick sort
+start = time.time()
+quick_sort(Hotdog_data.copy())
+quick_time = time.time() - start
+
+
+#Analysis
+
+total_per_vendor = {}
+vegan = 0
+meat = 0
+least_ketchup = float("inf")
+least_vendor = ""
+
+for item in Hotdog_data:
+    vendor = item[0]
+    type_ = item[1]
+    quantity = int(item[2])
+    ketchup = int(item[3])
+
