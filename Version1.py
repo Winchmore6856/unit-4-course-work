@@ -1,4 +1,5 @@
 #vendor list
+import time
 avaliable_vendors = ["Dolly Dogs", "Korner Kart"]
 
 #loop for valid input
@@ -25,6 +26,14 @@ with open('HotDogs.txt', "r") as file:
         if search_query in line:
             parts = line.strip().split(",")
             Hotdog_data.append(parts)
+
+time.sleep(1)
+print("1. VendorID\n2. Vendor Name\n3. Year & Week\n4. Vegan Holding Quality\n5. Meat Holding Quality\n6. Onions (kg)\n7. Ketchup (l)")
+time.sleep(1)
+print("     1           2           3       4     5       6      7")
+for i in Hotdog_data:
+    print(i)
+
 for i in Hotdog_data:
     print(i)
 #linear searches
@@ -32,8 +41,9 @@ def linear_search(items, target):
     for i in range(len(items)):
         if items[i] == target:
             print(f"Found {target} at position {i + 1}")
-            return
+            return True 
         print(f"{target} not found")
+        return False 
 
 #linear search UNSORTED 
 def linear_search_unsorted(data, target):
@@ -69,8 +79,10 @@ def binary_search(items, target):
             first = midpoint + 1
         else:
             last = midpoint - 1
+
             
     return False # Return False if the loop ends and target isn't found
+
 
 
 #bubble sort 
@@ -84,6 +96,7 @@ def bubble_sort(data):
 
 #quick sort
 def quick_sort(data):
+
     if len(data) <=1:
         return data
 
@@ -98,6 +111,26 @@ def quick_sort(data):
             right.append(item)
     return quick_sort(left) + [pivot] + quick_sort(right)
 
+#Call SEARCH functions 
+print("\n--- Search Results ---")
+
+#Linear unsorted 
+if linear_search_unsorted(Hotdog_data, search_query):
+    print("Linear search (unsorted): Found")
+else:
+    print("Linear search (unsorted): Not Found")
+
+#Sort data first 
+sorted_data = bubble_sort(Hotdog_data.copy())
+
+#Linear sorted 
+if linear_search_sorted(sorted_data, search_query):
+    print("linear search (sorted): Found")
+else:
+    print("linear search (sorted): Not found")
+
+#Binary search
+if  
 #TIMING SEARCHES 
 import time
 
@@ -145,4 +178,23 @@ for item in Hotdog_data:
     type_ = item[1]
     quantity = int(item[2])
     ketchup = int(item[3])
+
+#total per vendor 
+if vendor not in total_per_vendor:
+    total_per_vendor[vendor] = 0
+total_per_vendor[vendor] += quantity 
+
+#vegan vs meat
+if type_.lower() == "vegan":
+    vegan += quantity 
+else:
+    meat += quantity 
+
+#least ketchup 
+if ketchup < least_ketchup:
+    least_ketchup = ketchup
+    least_vendor = vendor
+
+most_productive = max(total_per_vendor, key=total_per_vendor.get)
+
 
