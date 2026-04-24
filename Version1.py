@@ -130,7 +130,25 @@ else:
     print("linear search (sorted): Not found")
 
 #Binary search
-if  
+if binary_search(sorted_data, search_query):
+    print("Binary search: Found")
+else:
+    print("Binary search: Not found")
+
+#Call SORT functions
+print("\n--- Sort Results ---")
+
+#Bubble sort
+bubble_sorted = bubble_sort(Hotdog_data.copy())
+print("Bubble sorted data:")
+for item in bubble_sorted:
+    print(item)
+
+#Quick sort
+quick_sorted = quick_sort(Hotdog_data.copy())
+print("\nQuick soted data:")
+for item in quick_sorted:
+    print(item)
 #TIMING SEARCHES 
 import time
 
@@ -197,4 +215,8 @@ if ketchup < least_ketchup:
 
 most_productive = max(total_per_vendor, key=total_per_vendor.get)
 
-
+print("\n--- ANALYSIS ---")
+print("Most productive vendor:", most_productive)
+print("Vegan hotdogs:", vegan)
+print("Meat hotdogs:", meat)
+print("Least ketchup used by:", least_vendor)
