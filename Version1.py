@@ -125,9 +125,9 @@ sorted_data = bubble_sort(Hotdog_data.copy())
 
 #Linear sorted 
 if linear_search_sorted(sorted_data, search_query):
-    print("linear search (sorted): Found")
+    print("Linear search (sorted): Found")
 else:
-    print("linear search (sorted): Not found")
+    print("Linear search (sorted): Not found")
 
 #Binary search
 if binary_search(sorted_data, search_query):
@@ -150,12 +150,12 @@ print("\nQuick soted data:")
 for item in quick_sorted:
     print(item)
 #TIMING SEARCHES 
-import time
+
 
 #linear unsorted 
 start = time.time()
 linear_search_unsorted(Hotdog_data, search_query)
-unsorted_time = time.time() - start 
+unsorted_time = time.time() - start
 
 #sort first
 sorted_data =  bubble_sort(Hotdog_data.copy())
@@ -163,9 +163,9 @@ sorted_data =  bubble_sort(Hotdog_data.copy())
 #linear sorted 
 start = time.time()
 linear_search_sorted(Hotdog_data, search_query)
-sorted_time = time.time() - start 
+sorted_time = time.time() - start
 
-#binary 
+#binary Search 
 start = time.time()
 binary_search(Hotdog_data, search_query)
 binary_time = time.time() - start
@@ -175,14 +175,19 @@ binary_time = time.time() - start
 #bubble sort
 start = time.time()
 bubble_sort(Hotdog_data.copy())
-bubble_time = time.time() - start 
+bubble_time = time.time() - start
 
 #quick sort
 start = time.time()
 quick_sort(Hotdog_data.copy())
 quick_time = time.time() - start
 
-
+print("\n--- TIMINGS ---")
+print("linear unsorted:",unsorted_time)
+print("linear sorted:",sorted_time)
+print("binary search:",binary_time)
+print("bubble sort:",bubble_time)
+print("quick sort:",quick_time)
 #Analysis
 
 total_per_vendor = {}
