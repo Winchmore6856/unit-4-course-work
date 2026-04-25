@@ -48,14 +48,14 @@ def linear_search(items, target):
 #linear search UNSORTED 
 def linear_search_unsorted(data, target):
     for item in data:
-        if item[0] == target:
+        if item[1] == target: #fixed
             return True
     return False 
 
 #linear search SORTED 
 def linear_search_sorted(data, target):
     for item in data:
-        if item[0] == target:
+        if item[1] == target:   #fixed 
             return True
     return False 
 
@@ -70,12 +70,12 @@ def binary_search(items, target):
         midpoint = (first + last) // 2 
 
         # Indent the if block to be inside the while loop
-        if items[midpoint][0] == target:
+        if items[midpoint][1] == target:  #fixed
             print(f"Found {target} after {passes} passes")
             return True
         
         # Standard binary search logic to update range
-        if items[midpoint][0] < target:
+        if items[midpoint][1] < target:   #fixed 
             first = midpoint + 1
         else:
             last = midpoint - 1
@@ -167,7 +167,7 @@ sorted_time = time.time() - start
 
 #binary Search 
 start = time.time()
-binary_search(Hotdog_data, search_query)
+binary_search(sorted_data, search_query)
 binary_time = time.time() - start
 
 #TIMING SORTS 
@@ -198,9 +198,10 @@ least_vendor = ""
 
 for item in Hotdog_data:
     vendor = item[0]
-    type_ = item[1]
-    quantity = int(item[2])
-    ketchup = int(item[3])
+
+type_ = item[1]
+quantity = int(item[2])
+ketchup = int(item[3])
 
 #total per vendor 
 if vendor not in total_per_vendor:
