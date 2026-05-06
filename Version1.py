@@ -20,42 +20,53 @@ while True:
 #read text file + store matches
 Hotdog_data = []
 
-with open('HotDogs.txt', "r") as file:
-    for line in file:
-        #checking if vendor appears in line
-        if search_query in line:
-            parts = line.strip().split(",")
-            Hotdog_data.append(parts)
+# FIX: added error handling
+try:
+    with open('HotDogs.txt', "r") as file:
+        for line in file:
+            if search_query in line:
+                parts = line.strip().split(",")
+                
+                # FIX: basic validation of row length
+                if len(parts) >= 4:
+                    Hotdog_data.append(parts)
+except FileNotFoundError:
+    print("Error: file not found")
+    Hotdog_data = []
 
 time.sleep(1)
 print("1. VendorID\n2. Vendor Name\n3. Year & Week\n4. Vegan Holding Quality\n5. Meat Holding Quality\n6. Onions (kg)\n7. Ketchup (l)")
 time.sleep(1)
 print("     1           2           3       4     5       6      7")
-for i in Hotdog_data:
-    print(i)
 
 for i in Hotdog_data:
     print(i)
+
+# FIX: removed duplicate print loop
+
+
 #linear searches
 def linear_search(items, target):
     for i in range(len(items)):
         if items[i] == target:
             print(f"Found {target} at position {i + 1}")
             return True 
-        print(f"{target} not found")
-        return False 
+    # FIX: moved outside loop
+    print(f"{target} not found")
+    return False 
 
-#linear search UNSORTED 
+
+#linear search UNSORTED FIXED 
 def linear_search_unsorted(data, target):
     for item in data:
-        if item[1] == target: #fixed
+        if item[1] == target:
             return True
     return False 
 
-#linear search SORTED 
+#linear search SORTED FIXED 
 def linear_search_sorted(data, target):
     for item in data:
-        if item[1] == target:   #fixed 
+        if item[1] == target:
             return True
     return False 
 
@@ -66,22 +77,19 @@ def binary_search(items, target):
     passes = 0
 
     while first <= last:
-        passes += 1  # Added to track search attempts
+        passes += 1
         midpoint = (first + last) // 2 
 
-        # Indent the if block to be inside the while loop
-        if items[midpoint][1] == target:  #fixed
+        if items[midpoint][1] == target:
             print(f"Found {target} after {passes} passes")
             return True
         
-        # Standard binary search logic to update range
-        if items[midpoint][1] < target:   #fixed 
+        if items[midpoint][1] < target:
             first = midpoint + 1
         else:
             last = midpoint - 1
 
-            
-    return False # Return False if the loop ends and target isn't found
+    return False
 
 
 
@@ -96,7 +104,6 @@ def bubble_sort(data):
 
 #quick sort
 def quick_sort(data):
-
     if len(data) <=1:
         return data
 
@@ -111,73 +118,66 @@ def quick_sort(data):
             right.append(item)
     return quick_sort(left) + [pivot] + quick_sort(right)
 
+
 #Call SEARCH functions 
 print("\n--- Search Results ---")
 
-#Linear unsorted 
 if linear_search_unsorted(Hotdog_data, search_query):
     print("Linear search (unsorted): Found")
 else:
     print("Linear search (unsorted): Not Found")
 
-#Sort data first 
 sorted_data = bubble_sort(Hotdog_data.copy())
 
-#Linear sorted 
 if linear_search_sorted(sorted_data, search_query):
     print("Linear search (sorted): Found")
 else:
     print("Linear search (sorted): Not found")
 
-#Binary search
 if binary_search(sorted_data, search_query):
     print("Binary search: Found")
 else:
     print("Binary search: Not found")
 
+
 #Call SORT functions
 print("\n--- Sort Results ---")
 
-#Bubble sort
 bubble_sorted = bubble_sort(Hotdog_data.copy())
 print("Bubble sorted data:")
 for item in bubble_sorted:
     print(item)
 
-#Quick sort
 quick_sorted = quick_sort(Hotdog_data.copy())
-print("\nQuick soted data:")
+print("\nQuick sorted data:")
 for item in quick_sorted:
     print(item)
+
+
 #TIMING SEARCHES 
 
-
-#linear unsorted 
 start = time.time()
 linear_search_unsorted(Hotdog_data, search_query)
 unsorted_time = time.time() - start
 
-#sort first
 sorted_data =  bubble_sort(Hotdog_data.copy())
 
-#linear sorted 
+# FIX: used sorted_data correctly
 start = time.time()
-linear_search_sorted(Hotdog_data, search_query)
+linear_search_sorted(sorted_data, search_query)
 sorted_time = time.time() - start
 
-#binary Search 
 start = time.time()
 binary_search(sorted_data, search_query)
 binary_time = time.time() - start
 
+
 #TIMING SORTS 
 
-#bubble sort
 start = time.time()
 bubble_sort(Hotdog_data.copy())
 bubble_time = time.time() - start
 
-#quick sort
 start = time.time()
 quick_sort(Hotdog_data.copy())
 quick_time = time.time() - start
@@ -188,6 +188,8 @@ print("linear sorted:",sorted_time)
 print("binary search:",binary_time)
 print("bubble sort:",bubble_time)
 print("quick sort:",quick_time)
+
+
 #Analysis
 
 total_per_vendor = {}
@@ -196,30 +198,34 @@ meat = 0
 least_ketchup = float("inf")
 least_vendor = ""
 
+# FIX: corrected indentation + added safe conversion
 for item in Hotdog_data:
-    vendor = item[0]
+    try:
+        vendor = item[0]
+        type_ = item[1]
+        quantity = int(item[2])
+        ketchup = int(item[3])
+    except (IndexError, ValueError):
+        continue
 
-type_ = item[1]
-quantity = int(item[2])
-ketchup = int(item[3])
+    if vendor not in total_per_vendor:
+        total_per_vendor[vendor] = 0
+    total_per_vendor[vendor] += quantity 
 
-#total per vendor 
-if vendor not in total_per_vendor:
-    total_per_vendor[vendor] = 0
-total_per_vendor[vendor] += quantity 
+    if type_.lower() == "vegan":
+        vegan += quantity 
+    else:
+        meat += quantity 
 
-#vegan vs meat
-if type_.lower() == "vegan":
-    vegan += quantity 
+    if ketchup < least_ketchup:
+        least_ketchup = ketchup
+        least_vendor = vendor
+
+# FIX: avoid crash if empty
+if total_per_vendor:
+    most_productive = max(total_per_vendor, key=total_per_vendor.get)
 else:
-    meat += quantity 
-
-#least ketchup 
-if ketchup < least_ketchup:
-    least_ketchup = ketchup
-    least_vendor = vendor
-
-most_productive = max(total_per_vendor, key=total_per_vendor.get)
+    most_productive = "N/A"
 
 print("\n--- ANALYSIS ---")
 print("Most productive vendor:", most_productive)
