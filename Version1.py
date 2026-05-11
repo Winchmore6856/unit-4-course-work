@@ -247,3 +247,14 @@ print("Most productive vendor:", most_productive)
 print("Total Vegan hotdogs sold by this vendor:", vegan)
 print("Total Meat hotdogs sold by this vendor:", meat)
 print("Least ketchup used by this vendor in a single week:", least_vendor)
+
+ #Save Results to File 
+
+results = f"""
+Most productive vendor: {most_productive}
+Total vegan hotdogs: {vegan}
+total meat hotdogs: {meat}
+Vendor using least ketchup: {least['name']}
+"""
+
+save_results("analysis.txt", result)
