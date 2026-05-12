@@ -250,11 +250,18 @@ print("Least ketchup used by this vendor in a single week:", least_vendor)
 
  #Save Results to File 
 
-results = f"""
+# --- Save Results to File --- 
+
+# Create the string using the variables from your Analysis loop
+analysis_results = f"""--- ANALYSIS RESULTS ---
 Most productive vendor: {most_productive}
-Total vegan hotdogs: {vegan}
-total meat hotdogs: {meat}
-Vendor using least ketchup: {least['name']}
+Total Vegan hotdogs sold: {vegan}
+Total Meat hotdogs sold: {meat}
+Vendor with lowest weekly ketchup usage: {least_vendor} ({least_ketchup}l)
 """
 
-save_results("analysis.txt", result)
+# Standard Python way to save to a file
+with open("analysis.txt", "w") as file:
+    file.write(analysis_results)
+
+print("\nResults have been saved to analysis.txt")
